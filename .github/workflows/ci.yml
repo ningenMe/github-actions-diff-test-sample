@@ -6,20 +6,33 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
+      - uses: ./.github/workflows/composite/diff
+        name: diff frontend
+        with:
+          subdir: frontend
       - uses: actions/setup-node@v2
         with:
           node-version: 14.x
-          cache: 'npm'
-      - run: yarn install
-      - run: yarn test --watchAll=false
+      - name: test
+        if: steps.diff.outputs.diff-count > 0
+        working-directory: ./frontend
+        run: | 
+          yarn install
+          yarn test --watchAll=false
 
   backend:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
+      - uses: ./.github/workflows/composite/diff
+        name: diff backend
+        with:
+          subdir: backend
       - uses: actions/setup-java@v2
         with:
           java-version: '11'
           distribution: 'adopt'
       - name: test
+        if: steps.diff.outputs.diff-count > 0
+        working-directory: ./backend
         run: gradle clean test
