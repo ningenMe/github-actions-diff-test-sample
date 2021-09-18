@@ -7,7 +7,8 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - uses: ./.github/workflows/composite/diff
-        name: diff frontend
+        name: diff
+        id: diff
         with:
           subdir: frontend
       - uses: actions/setup-node@v2
@@ -25,7 +26,8 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - uses: ./.github/workflows/composite/diff
-        name: diff backend
+        name: diff
+        id: diff
         with:
           subdir: backend
       - uses: actions/setup-java@v2
