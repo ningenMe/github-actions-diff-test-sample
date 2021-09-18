@@ -16,5 +16,4 @@ runs:
         git fetch origin ${TARGET_BRANCH}
         count=`git diff origin/${TARGET_BRANCH} HEAD --name-only --relative=${{ inputs.subdir }} | wc -l`
         echo "::set-output name=diff-count::$(echo $count)"
-        echo $count
       shell: bash
